@@ -10,22 +10,27 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
+    - name: List directory contents
+      run: |
+        ls -R
+        pwd
+    
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
     
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore src/Axiom.sln
     
     - name: Build
-      run: dotnet build --configuration Release --no-restore --verbosity detailed
+      run: dotnet build src/Axiom.sln --configuration Release --no-restore
     
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test src/Axiom.sln --no-restore --verbosity normal
     
     - name: Publish
-      run: dotnet publish -c Release -o publish
+      run: dotnet publish src/Axiom/Axiom.csproj -c Release -o publish
     
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
